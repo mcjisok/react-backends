@@ -15,9 +15,7 @@ export default class PushDetail extends React.Component{
             detailData:[],
             userInfo:[],
             commentList:[],
-            pushImageList:[],
-            tagList:[],
-            loading: true,
+            pushImageList:[]
         }
 
     }
@@ -34,9 +32,7 @@ export default class PushDetail extends React.Component{
                 detailData:res.data.data,
                 userInfo:res.data.data.userID,
                 commentList:res.data.data.comment,
-                pushImageList:res.data.data.pushImageList,
-                tagList:res.data.data.tagID[0],
-                loading:!this.state.loading
+                pushImageList:res.data.data.pushImageList
             })
             console.log(this.state)
             
@@ -70,41 +66,32 @@ export default class PushDetail extends React.Component{
         let imgList =null;
         if(this.state.pushImageList){
             imgList = <List
-                        // header="推送图片"
-                        grid={{ gutter: 24, column: 8 }}
+                        grid={{ gutter: 24, column: 6 }}
                         dataSource={this.state.pushImageList}
                         renderItem={item => (
                         <List.Item>
                             <Card ><img src={'http://localhost:3000' + item} width="100%"/></Card>
                         </List.Item>
                         )}
-                    />            
+                    />
         }
         else{
             imgList = null
         }
-
-        const tagList = this.state.tagList
         return(
             <div>
                 <Row gutter={24}>
                     <Col span={12}>
-                        <Card title="推送信息" loading={this.state.loading} >
-                            <p>推送标题：{this.state.detailData.pushTitle}</p>
+                        <Card title={"标题:"+this.state.detailData.pushTitle}  >
                             <p>推送内容：{this.state.detailData.pushContent}</p>
                             <p>推送时间：{this.state.detailData.pushdateAt}</p>
-                            <div>所属标签：
-                                {/* <Tag color="magenta" >{tagList.pTag.tagName}</Tag> */}
-                                <Tag color="magenta">{tagList?tagList.tagName:'无标签'}</Tag>
-                            </div>
                             
                         </Card>
                     </Col>
                     <Col span={12}>
-                        <Card title="用户信息" loading={this.state.loading} >
-                            <p>用户名称：{this.state.userInfo.name}</p>
-                            <p>登录账号：{this.state.userInfo.username}</p>
-                            <p>登录次数：{this.state.userInfo.logincount}次</p>
+                        <Card title={"作者："+this.state.userInfo.name}  >
+                            <p>用户ID:<strong>{this.state.userInfo._id}</strong></p>
+                            <p>登录账号:<strong>{this.state.userInfo.username}</strong></p>
                         </Card>
                     </Col>                    
                 </Row>
@@ -116,7 +103,7 @@ export default class PushDetail extends React.Component{
                 <br/>
                 <Row gutter={24}>
                     <Col span={24}>
-                        <Card title="评论&回复" loading={this.state.loading}>
+                        <Card title="评论&回复">
                         <Collapse bordered={false} >
                             {
                                 this.state.commentList.map((item,index)=>{

@@ -9,9 +9,6 @@ import {openNotification,DelopenNotification,ChangeSuccessNotification,ChangeFai
 
 import mrimg from '../../../src/mr.jpg'
 
-import '../Common/common.css';
-
-
 class GroupList extends React.Component{
     constructor(props){
         super(props);
@@ -20,26 +17,18 @@ class GroupList extends React.Component{
             loading:true,
             HOST:'http://localhost:3000'
         };
-        this.onChangeState =this.onChangeState.bind(this)        
+        this.onChangeState =this.onChangeState.bind(this)
         this.columns = [
             {
                 title:'分组标题',
                 dataIndex:'groupName',
-                key:'groupName',
-                width:'150px'
+                key:'groupName'
             },
             {
                 title:'分组描述',
                 dataIndex:'groupDescription',
                 key:'groupDescription',
-                width:'200px',
-                render:(text,record)=>{
-                    return(
-                        <div className="pTwoLine">
-                            {text}
-                        </div>
-                    )
-                }
+                width:'200px'
             },
             {
                 title:'创建者',
@@ -53,7 +42,7 @@ class GroupList extends React.Component{
                     if(text.length >0){
                         console.log(text)
                         return(
-                            <div style={{width: 150 + 'px'}}>
+                            <div>
                                 <Tag color="magenta" key={text[0].pTag.tagName}>{text[0].pTag.tagName}</Tag>
                                 <Tag color="magenta" key={text[0].tagName}>{text[0].tagName}</Tag>
                             </div>

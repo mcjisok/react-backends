@@ -5,16 +5,14 @@ import axios from 'axios'
 // 引入选择器组件
 import Selector from '../Common/selector'
 
-import { Row, Col,Form, Icon, Input, Button,Divider,Table ,Select,Tag,Modal,Popconfirm, message  } from 'antd';
+import { Row, Col,Form, Icon, Input, Button,notification,Divider,Table ,Select,Tag,Modal  } from 'antd';
 // import {  } from 'antd';
-
-// 全局提示框
-import {openNotification,DelopenNotification} from '../Common/popupMessage'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 const host = 'http://localhost:3000';
+
 
 
 // 公用参数 layout之类的
@@ -23,6 +21,16 @@ const formItemLayout = {
     wrapperCol: { span: 8 },
 };
 
+
+// 全局提示框
+const openNotification = () => {
+    notification.open({
+      message: '保存成功',
+      duration:3,
+      icon: <Icon type="check-circle-o" style={{ color: '#108ee9' }} />,
+    //   description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
+};
 
 // 组件一  从后台获取标签数据列表
 class TagList extends React.Component{
@@ -34,8 +42,6 @@ class TagList extends React.Component{
             ModalText: '是否删除？',
             visible: false,
             confirmLoading: false,
-            // tableLoading:false
-            loading: false,
         }
         this.columns = [{
             title: '标签名',
@@ -62,9 +68,7 @@ class TagList extends React.Component{
                 <span>
                     {/* <Button type="primary"><Icon type="edit" />操作</Button> */}
                     {/* <Divider type="vertical" /> */}
-                    <Popconfirm title="是否确定要删除？" onConfirm={()=>this.confirm(record._id)} onCancel={()=>this.cancel} okText="Yes" cancelText="No">
-                        <Button type="danger" ><Icon type="delete" />删除</Button>
-                    </Popconfirm>
+                    <Button type="danger" onClick={this.showModal}><Icon type="delete" />删除</Button>
                     {/* <Divider type="vertical" />
                     <a href="javascript:;" className="ant-dropdown-link">
                         More actions <Icon type="down" />
@@ -80,55 +84,36 @@ class TagList extends React.Component{
         console.log('标签列表组件的props数据为',this.props.taglist)
     }
 
-    //删除标签提示框 确认后执行的方法
-    confirm(e) {
-        console.log(e);
-        // message.success('Click on Yes');
-        // 更新数据
-
-        axios.post('http://localhost:3000/delTag',{
-            _id:e
-        })
-        .then(res=>{
-            // console.log(res)
-            DelopenNotification()
-            this.props.onUpdata()
-            
-        })
-        .catch(e=>{
-            console.log(e)
-        })
-    }
     // modal模态框操作
-    // showModal = () => {
-    //     this.setState({
-    //         visible: true,
-    //         });
-    //     }
-    // handleOk = () => {
-    //     this.setState({
-    //         ModalText: '正在删除中...请稍等..',
-    //         confirmLoading: true,
-    //     });
-    //     setTimeout(() => {
-    //         this.setState({
-    //         visible: false,
-    //         confirmLoading: false,
-    //         });
-    //     }, 2000);
-    // }
-    // handleCancel = () => {
-    //     console.log('Clicked cancel button');
-    //     this.setState({
-    //         visible: false,
-    //     });
-    // }
+    showModal = () => {
+        this.setState({
+            visible: true,
+            });
+        }
+    handleOk = () => {
+        this.setState({
+            ModalText: '正在删除中...请稍等..',
+            confirmLoading: true,
+        });
+        setTimeout(() => {
+            this.setState({
+            visible: false,
+            confirmLoading: false,
+            });
+        }, 2000);
+    }
+    handleCancel = () => {
+        console.log('Clicked cancel button');
+        this.setState({
+            visible: false,
+        });
+    }
 
 
     render(){
         return(
             <div>
-                <Table columns={this.columns} dataSource={this.props.taglist} loading={this.state.loading} rowKey="_id" pagination={this.pagination} />                
+                <Table columns={this.columns} dataSource={this.props.taglist} rowKey="_id" pagination={this.pagination} />                
                 <Modal title="确定"
                 visible={this.state.visible}
                 onOk={this.handleOk}
@@ -149,15 +134,12 @@ function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-
 class firstTag extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-
         }
     }
-
     componentDidMount() {
         // To disabled submit button at the beginning.
         this.props.form.validateFields();
@@ -185,7 +167,6 @@ class firstTag extends React.Component{
         }
     render() {
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-
         // Only show error after a field is touched.
         const nameError = isFieldTouched('name') && getFieldError('name');
         // const passwordError = isFieldTouched('password') && getFieldError('password');
@@ -237,7 +218,6 @@ class SubTag extends React.Component{
             subTagName:''
         }
     }
-
     componentDidMount() {
         // To disabled submit button at the beginning.
         this.props.form.validateFields();
@@ -245,8 +225,7 @@ class SubTag extends React.Component{
         console.log('二级标签组件的props',this.props)
         console.log('二级标签组件的state',this.state)
 
-    }
-    
+    }    
     handleChange(value) {
         console.log(`selected ${value}`);
     }
@@ -295,7 +274,7 @@ class SubTag extends React.Component{
     render(){
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
 
-        const subTagError = isFieldTouched('subTag') && getFieldError('subTag');
+        const nameError = isFieldTouched('name') && getFieldError('name');
         let _this = this
         
         return(
@@ -315,8 +294,8 @@ class SubTag extends React.Component{
             <FormItem
                 {...formItemLayout}
                 label="二级标签名"
-                validateStatus={subTagError ? 'error' : ''}
-                help={subTagError || ''
+                validateStatus={nameError ? 'error' : ''}
+                help={nameError || ''
             }
             >
                 {getFieldDecorator('subTag', {
@@ -357,15 +336,15 @@ export default class addTag extends React.Component{
     getTagList(){
         axios.get(host+'/getTagList')
             .then(res=>{
-                // console.log(res)
+                console.log(res)
                 if(res.data.code === 200){
                     // this.state.tagList = res.data.data
-                    // console.log('从后台获取的数据为',res.data.data)
+                    console.log('从后台获取的数据为',res.data.data)
                     this.setState({
                         taglist:res.data.data
                     })
-                    // console.log('主体组件的state')
-                    // console.log(this.state)
+                    console.log('主体组件的state')
+                    console.log(this.state)
                 }
             })
             .catch(e=>{
