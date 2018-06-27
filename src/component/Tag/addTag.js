@@ -172,32 +172,32 @@ class firstTag extends React.Component{
         // const passwordError = isFieldTouched('password') && getFieldError('password');
         return (
             <Form layout="horizontal" onSubmit={this.handleSubmit}>
-            <FormItem
-                {...formItemLayout}
-                label="一级标签名"
-                validateStatus={nameError ? 'error' : ''}
-                help={nameError || ''
-            }
-            >
-                {getFieldDecorator('name', {
-                rules: [{ required: true, message: '请输入标签名' },{max:5,message:'不允许超过5个字符'}],
-                })(
-                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入一级标签名称" />
-                )}
-            </FormItem>
-            
-            <FormItem 
-                {...formItemLayout}
-                label="点击可保存"
-            >
-                <Button
-                type="primary"
-                htmlType="submit"
-                disabled={hasErrors(getFieldsError())}
+                <FormItem
+                    {...formItemLayout}
+                    label="一级标签名"
+                    validateStatus={nameError ? 'error' : ''}
+                    help={nameError || ''
+                }
                 >
-                保存
-                </Button>
-            </FormItem>
+                    {getFieldDecorator('name', {
+                    rules: [{ required: true, message: '请输入标签名' },{max:5,message:'不允许超过5个字符'}],
+                    })(
+                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入一级标签名称" />
+                    )}
+                </FormItem>
+                
+                <FormItem 
+                    {...formItemLayout}
+                    label="点击可保存"
+                >
+                    <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={hasErrors(getFieldsError())}
+                    >
+                    保存
+                    </Button>
+                </FormItem>
             </Form>
         );
     }

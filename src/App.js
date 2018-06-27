@@ -17,6 +17,8 @@ import PushList from './component/Push/pushlist'
 import PushDetail from './component/Push/pushdetail'
 import AddTag from './component/Tag/addTag'
 import GroupList from './component/Group/grouplist'
+import Home from './component/Home/home'
+import Photo from './component/Photo/photo'
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -25,7 +27,7 @@ const { Header, Content, Sider } = Layout;
 
 class App extends Component {
 
-  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4'];
+  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4','sub5'];
   state = {
     openKeys: ['sub1'],
   };
@@ -90,18 +92,23 @@ class App extends Component {
                 <Menu.Item key="15">option11</Menu.Item>
                 <Menu.Item key="16">option12</Menu.Item>
               </SubMenu>
+              <SubMenu key="sub5" title={<span><Icon type="notification" />相册管理</span>}>
+                <Menu.Item key="17"><Link to="/photo">所有相册</Link></Menu.Item>
+                <Menu.Item key="18">option10</Menu.Item>
+              </SubMenu>
             </Menu>
           </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
             </Breadcrumb>
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              <Route path="/home" component={Silder}/>
+              <Route path="/home" component={Home}/>
               <Route path="/userlist" component={UserList}/>
               <Route path="/pushlist" component={PushList}/>
               <Route path="/pushdetail/:id" component={PushDetail}></Route>
               <Route path="/addtag" component={AddTag}></Route>
               <Route path="/grouplist" component={GroupList}></Route>
+              <Route path="/photo" component={Photo}></Route>
             </Content>
           </Layout>
         </Layout>

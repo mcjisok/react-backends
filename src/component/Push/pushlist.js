@@ -6,6 +6,7 @@ import { Table, Icon, Divider, Button,Avatar,Switch,Tag ,Popconfirm, message,Car
 import Link from 'react-router-dom/Link';
 // 全局提示框
 import {openNotification,DelopenNotification} from '../Common/popupMessage'
+import '../../App.css';
 
 
 class PushList extends React.Component {
@@ -27,7 +28,12 @@ class PushList extends React.Component {
                 title: 'push内容',
                 dataIndex: 'pushContent',
                 key: 'pushContent',
-                width:'250px'
+                width:'250px',
+                render: (text,record) =>(
+                    <p>
+                        {text.length < 25?text:text.slice(0,25)+'...'}
+                    </p>
+                )
             },
             {
                 title: '发布时间',

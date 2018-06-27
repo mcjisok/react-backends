@@ -146,7 +146,7 @@ class GroupList extends React.Component{
     //点击确认则删除对应的push 根据pushid提交给后台去删除
     confirm(e) {
         console.log(e);
-        message.success('Click on Yes');
+        // message.success('Click on Yes');
         axios.post(this.state.HOST + '/delGroup',{
             _id:e
         })
