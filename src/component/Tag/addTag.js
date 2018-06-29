@@ -5,8 +5,9 @@ import axios from 'axios'
 // 引入选择器组件
 import Selector from '../Common/selector'
 
-import { Row, Col,Form, Icon, Input, Button,notification,Divider,Table ,Select,Tag,Modal  } from 'antd';
+import { Row, Col,Form, Icon, Input, Button,notification,Divider,Table ,Select,Tag,Modal ,Popconfirm } from 'antd';
 // import {  } from 'antd';
+import {openNotification,DelopenNotification} from '../Common/popupMessage'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -22,15 +23,6 @@ const formItemLayout = {
 };
 
 
-// 全局提示框
-const openNotification = () => {
-    notification.open({
-      message: '保存成功',
-      duration:3,
-      icon: <Icon type="check-circle-o" style={{ color: '#108ee9' }} />,
-    //   description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-    });
-};
 
 // 组件一  从后台获取标签数据列表
 class TagList extends React.Component{
@@ -68,7 +60,10 @@ class TagList extends React.Component{
                 <span>
                     {/* <Button type="primary"><Icon type="edit" />操作</Button> */}
                     {/* <Divider type="vertical" /> */}
-                    <Button type="danger" onClick={this.showModal}><Icon type="delete" />删除</Button>
+                    {/* <Button type="danger" onClick={this.showModal}><Icon type="delete" />删除</Button> */}
+                    <Popconfirm title="是否确定要删除？" onConfirm={()=>this.confirm(record._id)} onCancel={()=>this.cancel} okText="Yes" cancelText="No">
+                        <Button type="danger"><Icon type="delete" /> 删除</Button>
+                    </Popconfirm>
                     {/* <Divider type="vertical" />
                     <a href="javascript:;" className="ant-dropdown-link">
                         More actions <Icon type="down" />
@@ -84,30 +79,28 @@ class TagList extends React.Component{
         console.log('标签列表组件的props数据为',this.props.taglist)
     }
 
-    // modal模态框操作
-    showModal = () => {
-        this.setState({
-            visible: true,
-            });
-        }
-    handleOk = () => {
-        this.setState({
-            ModalText: '正在删除中...请稍等..',
-            confirmLoading: true,
-        });
-        setTimeout(() => {
-            this.setState({
-            visible: false,
-            confirmLoading: false,
-            });
-        }, 2000);
+    confirm(e) {
+        console.log(e);
+        axios.post('http://localhost:3000/delTag',{
+            _id:e
+        })
+        .then(res=>{
+            // console.log(res)
+            if(res.data.code === 200){
+                DelopenNotification()
+                this.props.onUpdata()    
+            }
+            
+        })
+        .catch(e=>{
+            console.log(e)
+        })
     }
-    handleCancel = () => {
-        console.log('Clicked cancel button');
-        this.setState({
-            visible: false,
-        });
-    }
+      
+    // cancel(e) {
+    //     console.log(e);
+    //     message.error('Click on No');
+    // }
 
 
     render(){
@@ -246,31 +239,29 @@ class SubTag extends React.Component{
                     console.log(postdata)
                     
                     axios.post(host+'/saveTag',postdata)
-                        .then(res=>{
-                            console.log(res)
-                            if(res.data.code === 200 ){
-                                openNotification();
-                                this.props.form.resetFields()
-                                // 触发父组件重新从后台获取数据并更新数据
-                                this.props.onUpdata()
-                                
-                            }
-                        })
-                        .catch(e=>{
-                            console.log(e)
-                        })
-                }
-                
-                }
-            });
-        }
-        firstTagSelect = (value) =>{
-            console.log(`selected ${value}`);
-            this.setState({
-                firstTagID:value
-            })
-            // console.log(`选中了什么？？ ${this.state.firstTagID}`)
-        }
+                    .then(res=>{
+                        console.log(res)
+                        if(res.data.code === 200 ){
+                            openNotification();
+                            this.props.form.resetFields()
+                            // 触发父组件重新从后台获取数据并更新数据
+                            this.props.onUpdata()                            
+                        }
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+                }                
+            }
+        });
+    }
+    firstTagSelect = (value) =>{
+        console.log(`selected ${value}`);
+        this.setState({
+            firstTagID:value
+        })
+        // console.log(`选中了什么？？ ${this.state.firstTagID}`)
+    }
     render(){
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
 
