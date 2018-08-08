@@ -19,6 +19,7 @@ import AddTag from './component/Tag/addTag'
 import GroupList from './component/Group/grouplist'
 import Home from './component/Home/home'
 import Photo from './component/Photo/photo'
+import PhotoGroupDetail from './component/Photo/photogroupDetail'
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -109,6 +110,7 @@ class App extends Component {
               <Route path="/addtag" component={AddTag}></Route>
               <Route path="/grouplist" component={GroupList}></Route>
               <Route path="/photo" component={Photo}></Route>
+              <Route path="/photoGroupDetail/:id" component={PhotoGroupDetail}></Route>
             </Content>
           </Layout>
         </Layout>

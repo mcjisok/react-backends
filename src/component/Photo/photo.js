@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import axios from 'axios'
+import Link from 'react-router-dom/Link';
+
 
 // 引入选择器组件
 import Selector from '../Common/selector'
@@ -27,12 +29,26 @@ const formItemLayout = {
 class PhotoGroup extends React.Component{
     constructor(props){
         super(props)
+        this.state = {
+            groupList:[]
+        }
     }
     state = {
         photoGroupList:{}
     }
 
-    
+    async getPhotoGroup(){
+        let data = await axios.get(host+'/getPhotoGroupList')
+        console.log(data.data.data)
+        this.setState({
+            groupList:data.data.data    //相册列表
+        })  
+    }
+
+    componentWillMount (){
+        this.getPhotoGroup()
+        // console.log(this.state.b)
+    }
 
     render(){
         return(
@@ -40,23 +56,63 @@ class PhotoGroup extends React.Component{
                 {/* <Divider orientation="left" >标签列表</Divider>                 */}
                 <Row>
                     <Col span={24}>
-                        <AddGroup/>
+                        <AddGroup onUpdata={this.getPhotoGroup.bind(this)}/>
                     </Col>
                     {/* <Col span={12}>col-12</Col> */}
                 </Row>
                 <Divider orientation="left">相册列表</Divider>
                 <Row>
                     <Col span={24}>
-                        {/* <GroupList/> */}
+                        <GroupList groupList={this.state.groupList} />
                     </Col>
-                </Row>                
+                </Row>
             </div>
         )
     }
 }
 
 
+class GroupList extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+           
+        }
+    }    
+    componentDidMount(){
+        // console.log(this.state.b)
+    }
+    
+    componentDidUpdate(){
+        // console.log(this.state.b)
+    }
 
+    render(){
+        let list = <Row gutter={16}>
+                {this.props.groupList.map((item,index)=>{
+                return  <Col span={4} key={item._id}>
+                            <Link to={'/photoGroupDetail/'+item._id}>
+                                <Card
+                                    // style={{ width: 200 }}
+                                    // cover={<img alt="example" src={'http://localhost:3000' + item.imageList.length == 0?'2':item.imageList[0].path} />}
+                                >
+                                    <Meta
+                                    title={item.imageGroupName}
+                                    description={item.imageGroupDec.slice(0,25) + '...'}
+                                    />
+                                </Card>
+                            </Link>
+                        </Col>
+                })}
+                </Row>
+        
+        return(
+            <div>
+                {list}
+            </div>
+        )
+    }
+}
 
 
 function hasErrors(fieldsError) {
@@ -93,6 +149,8 @@ class AddPhotoGroup extends React.Component{
                             this.setState({
                                 visible: false,
                             });
+                            this.props.onUpdata()                            
+                            
                         }
                     })
                     .catch(e=>{
@@ -187,67 +245,5 @@ class AddPhotoGroup extends React.Component{
 }
 const AddGroup = Form.create()(AddPhotoGroup);
 
-
-class GroupList extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            a:'1',
-            b:'2',
-            c:[1,12,2,3,1,121,1,21]
-        }
-    }
-
-    getPhotoGroup(){
-        axios.get(host+'/getPhotoGroupList')
-        .then(res=>{
-            // console.log(res)
-            // console.log(typeof(res.data.data))
-            this.setState({
-                photoGroupList:res.data.data
-            })
-            // console.log(this.state.photoGroupList instanceof Array)
-
-        })
-        .catch(e=>{
-            console.log(e)
-        })
-    }
-
-    componentWillMount(){
-        this.getPhotoGroup()
-    }
-
-
-
-    render(){     
-        
-        // const a = Object.keys(this.state.photoGroupList).forEach(key => {
-        //     return <p>{key}</p>   
-        // });
-        return(
-            <div>
-                {
-                    /* {this.state.photoGroupList.map((key)=>{
-                    console.log(key)
-                })} */
-                    // console.log(this.state.photoGroupList === Array)
-                    console.log(this.state.photoGroupList)
-                }
-            </div>
-        )
-    }
-}
-
-{/* <Card
-                    hoverable
-                    style={{ width: 240 }}
-                    cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                >
-                    <Meta
-                    title="Europe Street beat"
-                    description="www.instagram.com"
-                    />
-                </Card> */}
 
 export default PhotoGroup

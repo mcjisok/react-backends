@@ -17,7 +17,6 @@ export default class PushDetail extends React.Component{
             commentList:[],
             pushImageList:[]
         }
-
     }
 
     getPushDetail(){
@@ -113,7 +112,7 @@ export default class PushDetail extends React.Component{
                                                 <div>
                                                     <Avatar src={"http://localhost:3000" + item.from.userInfoPhoto} />&nbsp;&nbsp;{item.from.name}：&nbsp;&nbsp;{item.content}&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <span style={style}><Tag color="#87d068">{item.meta.createAt}</Tag></span>
-                                                </div>                                                
+                                                </div>                                               
                                                 
                                             } 
                                             key={index}
