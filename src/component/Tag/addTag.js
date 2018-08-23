@@ -9,10 +9,13 @@ import { Row, Col,Form, Icon, Input, Button,notification,Divider,Table ,Select,T
 // import {  } from 'antd';
 import {openNotification,DelopenNotification} from '../Common/popupMessage'
 
+
+// 开发环境和生产环境结构切换
+import host from '../Common/global';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const host = 'http://localhost:3000';
 
 
 
@@ -81,7 +84,7 @@ class TagList extends React.Component{
 
     confirm(e) {
         console.log(e);
-        axios.post('http://localhost:3000/delTag',{
+        axios.post(host+'/delTag',{
             _id:e
         })
         .then(res=>{
@@ -96,13 +99,6 @@ class TagList extends React.Component{
             console.log(e)
         })
     }
-      
-    // cancel(e) {
-    //     console.log(e);
-    //     message.error('Click on No');
-    // }
-
-
     render(){
         return(
             <div>

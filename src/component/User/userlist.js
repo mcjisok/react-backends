@@ -7,6 +7,9 @@ import { Table, Icon, Divider, Button ,Popconfirm, message,Avatar } from 'antd';
 
 // 引入封装好的全局弹窗提示
 import {openNotification,DelopenNotification} from '../Common/popupMessage'
+// 开发环境和生产环境结构切换
+import host from '../Common/global'
+// const host = h.host
 // console.log(popupMessage)
 
 class UserList extends React.Component {
@@ -25,7 +28,7 @@ class UserList extends React.Component {
                     if(text != ''){
                         return(
                             <span>
-                                <Avatar src={'http://localhost:3000'+text} />
+                                <Avatar src={host+text} />
                             </span>
                         )
                     }
@@ -99,7 +102,8 @@ class UserList extends React.Component {
     }
     getdata(){
         // console.log(this.props)
-        axios.get('http://localhost:3000/userlist').then(res=>{
+        axios.get(host+'/userlist').then(res=>{
+            console.log(host)
             // console.log(res)
             if(res.data.code === 200){
                 // console.log(res.data.data)
@@ -118,7 +122,7 @@ class UserList extends React.Component {
     confirm(e) {
         // console.log(e);
         // message.success('Click on Yes');
-        axios.post('http://localhost:3000/delUser',{
+        axios.post(host+'/delUser',{
             _id:e
         })
         .then(res=>{

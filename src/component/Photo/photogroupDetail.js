@@ -8,13 +8,15 @@ import { Row, Col,Form, Icon, Input, Button,notification,Divider,Table ,Select,T
 // import {  } from 'antd';
 import {openNotification,DelopenNotification} from '../Common/popupMessage'
 
+// 开发环境和生产环境结构切换
+import host from '../Common/global'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 const { Meta } = Card;
 
-const host = 'http://localhost:3000';
+
 
 
 
@@ -27,7 +29,7 @@ class UpLoadPhoto extends React.Component{
             uploadSet:{
                 // 上传图片控件的属性
                 name: 'file',
-                action: '//localhost:3000/uploadPhoto',
+                action: host+'/uploadPhoto',
                 headers: {
                     authorization: 'authorization-text',
                 },
@@ -77,7 +79,7 @@ class ImgList extends React.Component{
                             {this.props.imgList.map((key)=>{
                             return  <Col span={3} key={key._id}>
                                         <div className="photoView">
-                                        <img src={'http://localhost:3000'+key.path} width="100%"/>
+                                        <img src={host+key.path} width="100%"/>
                                         </div>
                                     </Col>
                             })}
@@ -110,7 +112,7 @@ class PhotoGroupDetail extends React.Component{
             _id:id
         })
         console.log(id)
-        axios.post('http://localhost:3000/getPhotoList',{_id:id})
+        axios.post(host+'/getPhotoList',{_id:id})
         .then(res=>{
             console.log(res)
             this.setState({

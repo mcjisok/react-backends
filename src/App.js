@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './lg.png';
+import logo from './logo.png';
 import './App.css';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
@@ -49,7 +49,7 @@ class App extends Component {
       <Layout>
         <Header className="header">
           <div className="logo" >
-            <img src={logo} height="100%"/>
+            <img src={logo} width="100%"/>
           </div>
           {/* <Menu
             theme="dark"
@@ -77,25 +77,25 @@ class App extends Component {
               </SubMenu>
               <SubMenu key="sub2" title={<span><Icon type="laptop" />Push管理</span>}>
                 <Menu.Item key="5"><Link to="/pushlist">Push列表</Link></Menu.Item>
-                <Menu.Item key="6">option6</Menu.Item>
+                {/* <Menu.Item key="6">option6</Menu.Item>
                 <Menu.Item key="7">option7</Menu.Item>
-                <Menu.Item key="8">option8</Menu.Item>
+                <Menu.Item key="8">option8</Menu.Item> */}
               </SubMenu>
               <SubMenu key="sub3" title={<span><Icon type="notification" />分组管理</span>}>
                 <Menu.Item key="9"><Link to="/grouplist">分组列表</Link></Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
+                {/* <Menu.Item key="10">option10</Menu.Item>
                 <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
+                <Menu.Item key="12">option12</Menu.Item> */}
               </SubMenu>
               <SubMenu key="sub4" title={<span><Icon type="notification" />标签管理</span>}>
                 <Menu.Item key="13"><Link to="/addtag">新建标签</Link></Menu.Item>
-                <Menu.Item key="14">option10</Menu.Item>
+                {/* <Menu.Item key="14">option10</Menu.Item>
                 <Menu.Item key="15">option11</Menu.Item>
-                <Menu.Item key="16">option12</Menu.Item>
+                <Menu.Item key="16">option12</Menu.Item> */}
               </SubMenu>
               <SubMenu key="sub5" title={<span><Icon type="notification" />相册管理</span>}>
                 <Menu.Item key="17"><Link to="/photo">所有相册</Link></Menu.Item>
-                <Menu.Item key="18">option10</Menu.Item>
+                {/* <Menu.Item key="18">option10</Menu.Item> */}
               </SubMenu>
             </Menu>
           </Sider>

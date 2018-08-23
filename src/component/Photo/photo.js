@@ -10,14 +10,15 @@ import Selector from '../Common/selector'
 import { Row, Col,Form, Icon, Input, Button,notification,Divider,Table ,Select,Tag,Modal ,Card  } from 'antd';
 // import {  } from 'antd';
 import {openNotification,DelopenNotification} from '../Common/popupMessage'
-
+// 开发环境和生产环境结构切换
+import host from '../Common/global'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 const { Meta } = Card;
 
-const host = 'http://localhost:3000';
+
 
 // 公用参数 layout之类的
 const formItemLayout = {

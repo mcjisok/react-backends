@@ -6,6 +6,8 @@ import { Table, Icon, Divider, Button,Avatar,Switch,Tag ,Popconfirm, message,Car
 import Link from 'react-router-dom/Link';
 // 全局提示框
 import {openNotification,DelopenNotification} from '../Common/popupMessage'
+// 开发环境和生产环境结构切换
+import host from '../Common/global'
 import '../../App.css';
 
 
@@ -52,7 +54,7 @@ class PushList extends React.Component {
                 render: (text, record) => (
                     <span>
                         {/* <Avatar style={{ backgroundColor: '#87d068' }} icon="user" /> */}
-                        <Avatar src={'http://localhost:3000'+record.userID.userInfoPhoto} />
+                        <Avatar src={host+record.userID.userInfoPhoto} />
                         {/* <p>321312</p> */}
                         <Divider type="vertical" />
                         {record.userID.name}
@@ -121,7 +123,7 @@ class PushList extends React.Component {
         ];
     }
     getdata(){
-        axios.get('http://localhost:3000/pushlist')
+        axios.get(host+'/pushlist')
         .then(res=>{
             console.log(res)
             if( res.data.code === 200){
@@ -146,7 +148,7 @@ class PushList extends React.Component {
     confirm(e) {
         console.log(e);
         // message.success('Click on Yes');
-        axios.post('http://localhost:3000/delPush',{
+        axios.post(host+'/delPush',{
             _id:e
         })
         .then(res=>{

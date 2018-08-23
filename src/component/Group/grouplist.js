@@ -8,6 +8,8 @@ import Link from 'react-router-dom/Link';
 import {openNotification,DelopenNotification,ChangeSuccessNotification,ChangeFailNotification} from '../Common/popupMessage'
 
 import mrimg from '../../../src/mr.jpg'
+// 开发环境和生产环境结构切换
+import host from '../Common/global'
 
 class GroupList extends React.Component{
     constructor(props){
@@ -15,7 +17,6 @@ class GroupList extends React.Component{
         this.state = {
             grouplist:[],
             loading:true,
-            HOST:'http://localhost:3000'
         };
         this.onChangeState =this.onChangeState.bind(this)
         this.columns = [
@@ -77,7 +78,7 @@ class GroupList extends React.Component{
                 render:(text,record)=>{
                     if(text){
                         return(
-                            <img src={'http://localhost:3000' + text} width="100%"/>
+                            <img src={host + text} width="100%"/>
                         )
                     }
                     else{
@@ -109,7 +110,7 @@ class GroupList extends React.Component{
     }
 
     getdata(){
-        axios.get(this.state.HOST + '/getGroupList')
+        axios.get(host + '/getGroupList')
         .then(res=>{
             console.log(res)
             if(res.data.code === 200){
@@ -127,7 +128,7 @@ class GroupList extends React.Component{
     onChangeState(checked,id){
         // console.log(`switch to ${checked}`);
         // console.log(id)
-        axios.post(this.state.HOST + '/changeGroupState',{
+        axios.post(host + '/changeGroupState',{
             _id:id,
             state:checked
         })
@@ -147,7 +148,7 @@ class GroupList extends React.Component{
     confirm(e) {
         console.log(e);
         // message.success('Click on Yes');
-        axios.post(this.state.HOST + '/delGroup',{
+        axios.post(host + '/delGroup',{
             _id:e
         })
         .then(res=>{

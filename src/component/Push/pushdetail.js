@@ -3,6 +3,10 @@ import 'antd/dist/antd.css';
 import axios from 'axios'
 
 import { Form, Input, Button,Row, Col,Icon,Checkbox,Card,List,Avatar,Collapse ,Tag } from 'antd';
+
+// 开发环境和生产环境结构切换
+import host from '../Common/global'
+
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const Panel = Collapse.Panel;
@@ -24,7 +28,7 @@ export default class PushDetail extends React.Component{
         // console.log(id)
         let id = this.props.match.params.id
         console.log(id)
-        axios.post('http://localhost:3000/getPushDetail',{_id:id})
+        axios.post(host+'/getPushDetail',{_id:id})
         .then(res=>{
             console.log(res)
             this.setState({
@@ -69,7 +73,7 @@ export default class PushDetail extends React.Component{
                         dataSource={this.state.pushImageList}
                         renderItem={item => (
                         <List.Item>
-                            <Card ><img src={'http://localhost:3000' + item} width="100%"/></Card>
+                            <Card ><img src={host+item} width="100%"/></Card>
                         </List.Item>
                         )}
                     />
@@ -110,7 +114,7 @@ export default class PushDetail extends React.Component{
                                         <Panel 
                                             header={                                                
                                                 <div>
-                                                    <Avatar src={"http://localhost:3000" + item.from.userInfoPhoto} />&nbsp;&nbsp;{item.from.name}：&nbsp;&nbsp;{item.content}&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <Avatar src={host + item.from.userInfoPhoto} />&nbsp;&nbsp;{item.from.name}：&nbsp;&nbsp;{item.content}&nbsp;&nbsp;&nbsp;&nbsp;
                                                     <span style={style}><Tag color="#87d068">{item.meta.createAt}</Tag></span>
                                                 </div>                                               
                                                 
@@ -128,7 +132,7 @@ export default class PushDetail extends React.Component{
                                                     renderItem={i => (
                                                         <List.Item>
                                                             <List.Item.Meta
-                                                            avatar={<Avatar src={"http://localhost:3000" + i.from.userInfoPhoto} />}
+                                                            avatar={<Avatar src={host + i.from.userInfoPhoto} />}
                                                             title={<p>{i.from.name} 回复 {i.to.name}</p>}
                                                             description={
                                                                 <div>

@@ -30,7 +30,7 @@
 .logo {
   width: 120px;
   height: 31px;
-  background: rgba(255,255,255,.2);  
+  background: #fff;  
   margin: 16px 28px 16px 0;
   float: left;
 }
@@ -40,5 +40,7 @@
   /* height: 31px; */
   text-align: center;
   line-height: 31px;
+  position: relative;
+  top: -18px;
 }
 
